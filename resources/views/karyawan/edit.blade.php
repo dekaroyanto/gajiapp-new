@@ -1,7 +1,7 @@
 @extends('layouts.template')
 
 @section('content')
-    <div class="card">
+    <div class="card mx-3">
         <div class="card-header">
             <h4 class="card-title">Edit Karyawan</h4>
         </div>

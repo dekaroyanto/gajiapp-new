@@ -3,7 +3,7 @@
 
 
 @section('content')
-    <div class="card">
+    <div class="card mx-3">
         <div class="card-header">
             <h4 class="card-title">Data Gaji</h4>
         </div>
@@ -21,7 +21,8 @@
                         <th>T. SVC</th>
                         <th>Insentif Kehadiran</th>
                         <th>Absensi Kehadiran</th>
-                        <th>Aksi</th>
+                        <th>Total Gaji</th>
+                        <th class="text-center">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -31,23 +32,32 @@
                             <td>{{ $gaji->tanggal }}</td>
                             <td>{{ $gaji->karyawan->nama_karyawan }}</td>
                             <td>{{ $gaji->karyawan->nama_jabatan }}</td>
-                            <td>{{ number_format($gaji->gaji_pokok) }}</td>
+                            <td>{{ number_format($gaji->gpokok) }}</td>
                             <td>{{ number_format($gaji->gjabatan) }}</td>
-                            <td>{{ number_format($gaji->opr) }}</td>
+                            <td>{{ number_format($gaji->oprs) }}</td>
                             <td>{{ number_format($gaji->service) }}</td>
                             <td>{{ number_format($gaji->insentif) }}</td>
                             <td>{{ $gaji->hadir }}</td>
                             <td>{{ number_format($gaji->total_gaji) }}</td>
                             <td>
-                                <a href="{{ route('gaji.edit', $gaji->id) }}" class="btn btn-warning btn-sm">Edit</a>
-                                <form action="{{ route('gaji.destroy', $gaji->id) }}" method="POST"
-                                    style="display:inline-block;">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger btn-sm"
-                                        onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">Hapus</button>
-                                </form>
+                                <div class="d-flex justify-content-center">
+                                    <a type="button" class="btn btn-warning mx-1"
+                                        href="{{ route('gaji.edit', $gaji->id) }}">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </a>
+                                    <form action="{{ route('gaji.destroy', $gaji->id) }}" method="POST"
+                                        onsubmit="return confirm('Apakah Anda yakin ingin menghapus gaji ini?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger mx-1">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </form>
+
+                                </div>
                             </td>
+
+
                         </tr>
                     @endforeach
                 </tbody>

@@ -63,19 +63,16 @@ class GajiController extends Controller
         // Ambil data karyawan
         $karyawan = Karyawan::findOrFail($request->karyawan_id);
 
-        // Hitung total gaji
-        $total_gaji = ($karyawan->gaji_pokok + ($karyawan->insentif_harian * $request->hadir)) - ($request->pinjaman + $request->bpjs);
-
         // Simpan data gaji
         Gaji::create([
             'karyawan_id' => $request->karyawan_id,
             'tanggal' => $request->tanggal,
-            'hadir' => $request->hadir,
+            'hadir' => $request->hadir ?? 0,
             'izin' => $request->izin ?? 0,
             'sakit' => $request->sakit ?? 0,
             'terlambat' => $request->terlambat ?? 0,
             'alpa' => $request->alpa ?? 0,
-            'gpokok' => $request->gpokok,
+            'gpokok' => $request->gpokok ?? 0,
             'gjabatan' => $request->gjabatan ?? 0,
             'oprs' => $request->oprs ?? 0,
             'service' => $request->service ?? 0,
@@ -84,10 +81,10 @@ class GajiController extends Controller
             'angsuran' => $request->angsuran ?? 0,
             'bpjs' => $request->bpjs ?? 0,
             'kasbon' => $request->kasbon ?? 0,
-            'total_gaji' => $total_gaji,
+            'total_gaji' => $request->total_gaji ?? 0,
         ]);
 
-        return redirect()->route('gaji.index')->with('success', 'Data gaji berhasil disimpan.');
+        return redirect()->route('gaji.create')->with('success', 'Data gaji berhasil disimpan.');
     }
 
     /**
@@ -146,19 +143,17 @@ class GajiController extends Controller
         $gaji = Gaji::findOrFail($id);
         $karyawan = Karyawan::findOrFail($request->karyawan_id);
 
-        // Hitung total gaji kembali
-        $total_gaji = ($karyawan->gaji_pokok + ($karyawan->insentif_harian * $request->hadir)) - ($request->pinjaman + $request->bpjs);
 
         // Update data gaji
         $gaji->update([
             'karyawan_id' => $request->karyawan_id,
             'tanggal' => $request->tanggal,
-            'hadir' => $request->hadir,
+            'hadir' => $request->hadir ?? 0,
             'izin' => $request->izin ?? 0,
             'sakit' => $request->sakit ?? 0,
             'terlambat' => $request->terlambat ?? 0,
             'alpa' => $request->alpa ?? 0,
-            'gpokok' => $request->gpokok,
+            'gpokok' => $request->gpokok ?? 0,
             'gjabatan' => $request->gjabatan ?? 0,
             'oprs' => $request->oprs ?? 0,
             'service' => $request->service ?? 0,
@@ -167,7 +162,7 @@ class GajiController extends Controller
             'angsuran' => $request->angsuran ?? 0,
             'bpjs' => $request->bpjs ?? 0,
             'kasbon' => $request->kasbon ?? 0,
-            'total_gaji' => $total_gaji,
+            'total_gaji' => $request->total_gaji ?? 0,
         ]);
 
         return redirect()->route('gaji.index')->with('success', 'Data gaji berhasil diperbarui.');

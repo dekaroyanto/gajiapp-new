@@ -1,28 +1,7 @@
 @extends('layouts.template')
 
-{{-- @section('cardheader')
-    Data Karyawan <br>
-    <form action="{{ route('karyawan.index') }}" method="GET">
-        <select name="jabatan" class="form-select" onchange="this.form.submit()">
-            <option value="">Semua Jabatan</option>
-            @foreach ($jabatan as $jab)
-                <option value="{{ $jab }}" {{ request('jabatan') == $jab ? 'selected' : '' }}>
-                    {{ $jab }}
-                </option>
-            @endforeach
-        </select>
-    </form>
-@endsection --}}
-
-{{-- @section('judulhal')
-    Karyawan <br>
-    <a href="{{ route('karyawan.create') }}" class="btn btn-primary">Tambah Karyawan</a>
-@endsection --}}
-
-{{-- @section('link', 'Karyawan') --}}
-
 @section('content')
-    <div class="card">
+    <div class="card mx-3">
         <div class="card-header">
             Data Karyawan <br>
             <form action="{{ route('karyawan.index') }}" method="GET">
@@ -79,16 +58,3 @@
         </div>
     </div>
 @endsection
-
-{{-- @section('scripts')
-    <script>
-        $(document).ready(function() {
-            $('#table1').DataTable({
-                "pageLength": 10,
-                "ordering": true,
-                // nonaktifkan fitur search default dari DataTables karena kita sudah punya filter sendiri
-                "searching": false
-            });
-        });
-    </script>
-@endsection --}}
