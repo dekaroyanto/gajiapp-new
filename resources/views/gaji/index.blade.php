@@ -1,13 +1,38 @@
 @extends('layouts.template')
 
-
-
 @section('content')
     <div class="card mx-3">
         <div class="card-header">
             <h4 class="card-title">Data Gaji</h4>
         </div>
         <div class="card-body">
+            <form id="filterForm" action="{{ route('gaji.index') }}" method="GET" class="d-flex justify-content-start mb-3">
+                <div class="form-group mx-2 w-50">
+                    <label for="bulan">Bulan</label>
+                    <select name="bulan" id="bulan" class="form-control"
+                        onchange="document.getElementById('filterForm').submit();">
+                        <option value="">Pilih Bulan</option>
+                        @for ($i = 1; $i <= 12; $i++)
+                            <option value="{{ $i }}" {{ request('bulan') == $i ? 'selected' : '' }}>
+                                {{ DateTime::createFromFormat('!m', $i)->format('F') }}
+                            </option>
+                        @endfor
+                    </select>
+                </div>
+                <div class="form-group mx-2 w-50">
+                    <label for="tahun">Tahun</label>
+                    <select name="tahun" id="tahun" class="form-control"
+                        onchange="document.getElementById('filterForm').submit();">
+                        <option value="">Pilih Tahun</option>
+                        @for ($year = date('Y'); $year >= 2000; $year--)
+                            <option value="{{ $year }}" {{ request('tahun') == $year ? 'selected' : '' }}>
+                                {{ $year }}
+                            </option>
+                        @endfor
+                    </select>
+                </div>
+            </form>
+
             <table class="table table-striped" id="table1">
                 <thead>
                     <tr>
@@ -53,18 +78,12 @@
                                             <i class="bi bi-trash"></i>
                                         </button>
                                     </form>
-
                                 </div>
                             </td>
-
-
                         </tr>
                     @endforeach
                 </tbody>
             </table>
         </div>
     </div>
-    {{-- <div class="mb-3">
-        <a href="{{ route('gaji.create') }}" class="btn btn-primary">Tambah Gaji</a>
-    </div> --}}
 @endsection

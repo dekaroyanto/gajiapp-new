@@ -16,8 +16,9 @@
         <div class="box">
             <div class="inner-box">
                 <div class="forms-wrap">
-                    <form action="" method="post" autocomplete="off" class="sign-in-form">
+                    <form action="{{ route('login.process') }}" method="post" autocomplete="off" class="sign-in-form">
                         @csrf
+                        @method('POST')
                         <div class="logo">
                             <img src="{{ asset('loginform/img/columbus.jpg') }}" alt="easyclass" />
                         </div>
@@ -25,28 +26,12 @@
                         <div class="heading">
                             <h2>Welcome Back</h2>
                         </div>
-                        {{-- @error('loginError')
-                            <div class="alert alert-danger">
-                                <strong>Gagal Login</strong>
-                                <p>{{ $message }}</p>
-                            </div>
-                        @enderror --}}
 
-                        @if ($errors->any())
-                            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-                            <script>
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: 'Gagal Login',
-                                    text: '{{ $errors->first() }}'
-                                });
-                            </script>
-                        @endif
                         <div class="actual-form">
                             <div class="input-wrap">
-                                <input type="text" name="username" minlength="4" class="input-field"
+                                <input type="text" name="email" minlength="4" class="input-field"
                                     autocomplete="off" required />
-                                <label>Username</label>
+                                <label>Email</label>
                             </div>
 
                             <div class="input-wrap">
@@ -82,6 +67,17 @@
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
     </script>
     <script src="{{ asset('loginform/app.js') }}"></script>
+
+    @if (Session::has('loginError'))
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Gagal Login',
+                text: '{{ Session::get('loginError') }}'
+            });
+        </script>
+    @endif
 </body>
 
 </html>

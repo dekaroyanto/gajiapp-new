@@ -5,15 +5,28 @@ namespace App\Http\Controllers;
 use App\Models\Gaji;
 use App\Models\Karyawan;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class GajiController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $gajis = Gaji::with('karyawan')->latest()->get();
+        $query = Gaji::with('karyawan');
+
+        // Filter berdasarkan bulan
+        if ($request->filled('bulan')) {
+            $query->whereMonth('tanggal', $request->bulan);
+        }
+
+        // Filter berdasarkan tahun
+        if ($request->filled('tahun')) {
+            $query->whereYear('tanggal', $request->tahun);
+        }
+
+        $gajis = $query->latest()->get();
 
         return view('gaji.index', compact('gajis'));
     }
@@ -178,5 +191,47 @@ class GajiController extends Controller
         $gaji->delete();
 
         return redirect()->route('gaji.index')->with('success', 'Data gaji berhasil dihapus.');
+    }
+
+    public function rekapgaji()
+    {
+        return view('print.rekap');
+    }
+
+    public function filterByDate(Request $request)
+    {
+        $tanggal = $request->query('tanggal');
+        $gajis = Gaji::with('karyawan')->whereDate('tanggal', $tanggal)->get();
+
+        return response()->json($gajis);
+    }
+
+    // public function cetakrekap(Request $request)
+    // {
+    //     $tanggal = $request->query('tanggal');
+
+    //     $gajis = Gaji::with('karyawan')->whereDate('tanggal', $tanggal)->get();
+
+    //     if ($gajis->isEmpty()) {
+    //         return redirect()->back()->with('error', 'Data tidak ditemukan untuk tanggal ini.');
+    //     }
+
+    //     $pdf = Pdf::loadView('print.cetakrekap', compact('gajis', 'tanggal'));
+
+    //     return $pdf->stream("rekap-gaji-{$tanggal}.pdf", ['Attachment' => false]);
+    // }
+
+    public function cetakrekap(Request $request)
+    {
+        $tanggal = $request->query('tanggal');
+
+        // Ambil data gaji berdasarkan tanggal
+        $gajis = Gaji::with('karyawan')->whereDate('tanggal', $tanggal)->get();
+
+        if ($gajis->isEmpty()) {
+            return redirect()->back()->with('error', 'Data tidak ditemukan untuk tanggal ini.');
+        }
+
+        return view('print.cetakrekap', compact('gajis', 'tanggal'));
     }
 }

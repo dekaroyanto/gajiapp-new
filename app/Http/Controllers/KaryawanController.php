@@ -24,8 +24,8 @@ class KaryawanController extends Controller
             $query->where('jabatan', $request->jabatan);
         }
 
-        // Ambil data karyawan dengan filter
-        $karyawans = $query->get(); // Ubah variable menjadi karyawans sesuai view
+
+        $karyawans = $query->get();
 
         return view('karyawan.index', compact('karyawans', 'jabatan'));
     }
