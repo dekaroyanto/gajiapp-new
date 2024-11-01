@@ -39,6 +39,17 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
+        // Fungsi untuk memformat tanggal ke dalam format Indonesia
+        function formatTanggalIndonesia(tanggal) {
+            const bulanIndonesia = [
+                "Januari", "Februari", "Maret", "April", "Mei", "Juni",
+                "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+            ];
+            const dateObj = new Date(tanggal);
+            const tanggalFormatted = `${dateObj.getDate()} ${bulanIndonesia[dateObj.getMonth()]} ${dateObj.getFullYear()}`;
+            return tanggalFormatted;
+        }
+
         document.getElementById('tanggal').addEventListener('change', function() {
             const tanggal = this.value;
             const cetakPdfBtn = document.getElementById('cetakPdf');
@@ -54,7 +65,6 @@
                             gajiTable.style.display = 'block';
                             cetakPdfBtn.style.display = 'inline-block';
 
-                            // Mengubah tautan cetak PDF menjadi tindakan JavaScript
                             cetakPdfBtn.onclick = function() {
                                 window.open(`/gaji/cetakrekap?tanggal=${tanggal}`, '_blank');
                             };
@@ -63,7 +73,7 @@
                                 const row = document.createElement('tr');
                                 row.innerHTML = `
                                     <td>${gaji.karyawan.nama_karyawan}</td>
-                                    <td>${gaji.tanggal}</td>
+                                    <td>${formatTanggalIndonesia(gaji.tanggal)}</td>
                                     <td>${gaji.gpokok}</td>
                                     <td>${gaji.total_gaji}</td>
                                 `;

@@ -104,7 +104,7 @@
                     </a>
                 </div>
 
-                <div class="col-6 col-lg-6 col-md-6">
+                {{-- <div class="col-6 col-lg-6 col-md-6">
                     <a href="{{ route('gaji.rekap') }}" class="card-link">
                         <div class="card">
                             <div class="card-body px-4 py-4-5">
@@ -122,7 +122,7 @@
                             </div>
                         </div>
                     </a>
-                </div>
+                </div> --}}
             </div>
         </div>
     </section>
